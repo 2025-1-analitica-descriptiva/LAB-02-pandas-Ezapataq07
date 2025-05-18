@@ -4,7 +4,13 @@ datos requeridos se encuentran en los archivos `tbl0.tsv`, `tbl1.tsv` y
 `tbl2.tsv`. En este laboratorio solo puede utilizar las funciones y 
 librerias de pandas para resolver las preguntas.
 """
+import pandas as pd
 
+def process(row):
+    a = list(row)
+    a = sorted(a)
+    a = [str(i) for i in a]
+    return ','.join(a)
 
 def pregunta_12():
     """
@@ -22,3 +28,11 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
+    df_2 = pd.read_csv('./files/input/tbl2.tsv', sep='\t')
+    df_2['c5'] = df_2.apply(lambda row: str(row['c5a']) + ':' + str(row['c5b']),axis=1)
+
+
+    return df_2.groupby('c0', as_index=False).agg({'c5': process})
+
+print(pregunta_12())
+
